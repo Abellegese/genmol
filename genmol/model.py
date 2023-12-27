@@ -109,7 +109,7 @@ class Block(nn.Module):
         return x
 
 @dataclass
-class GPTConfig:
+class GenMolConfig:
     block_size: int = 1024
     vocab_size: int = 50304
     n_layer: int = 12
@@ -118,7 +118,7 @@ class GPTConfig:
     dropout: float = 0.0
     bias: bool = True 
 
-class GPT(nn.Module):
+class GenMol(nn.Module):
 
     def __init__(self, config):
         super().__init__()
@@ -230,7 +230,6 @@ class GPT(nn.Module):
     def estimate_mfu(self, fwdbwd_per_iter, dt):
         """ estimate model flops utilization (MFU) in units of A100 bfloat16 peak FLOPS """
         # first estimate the number of flops we do per iteration.
-        # see PaLM paper Appendix B as ref: https://arxiv.org/abs/2204.02311
         N = self.get_num_params()
         cfg = self.config
         L, H, Q, T = cfg.n_layer, cfg.n_head, cfg.n_embd//cfg.n_head, cfg.block_size
