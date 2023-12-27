@@ -7,3 +7,17 @@
 
 This project used a vanilla transformer to predict a molecule as a string of smiles. Using the decoder only transformer to decode a smiles of molecules to high-dimensional
 representation. 
+
+## Usage
+
+Download the files from this repo then runs the code below
+
+```bash
+  python3 train.py --path 'data/smiles.csv' --epoch=10 --ts 0.1
+```
+### Generate
+```bash
+  python3 sample.py
+```
+    
+    
