@@ -24,4 +24,6 @@ Download the files from this repo then runs the code below
 
 ## User Interface based
 Given the protein structure the model will generate candidate drug.
+### Step one
+<img src="assets/step one."    width="400" height="200" />
     
