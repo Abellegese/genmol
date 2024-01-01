@@ -1,0 +1,481 @@
+﻿
+@page
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@model workspacesModel
+@{
+    ViewData["Title"] = "Generative Workspace";
+}
+
+@*Style Assignment Area
+*@<link href="~/assets/css/custom-modal.css" rel="stylesheet" />
+<script src="~/assets/js/3dmol/3Dmol-min.js"></script>
+<script src="~/assets/js/rdkitjs/RDKit_minimal.js"></script>
+<script src="https://3Dmol.org/build/3Dmol.ui-min.js"></script>  
+
+  <script>
+    initRDKitModule().then(function (instance) {
+      RDKitModule = instance;
+      console.log("version: " + RDKitModule.version());
+    });
+  </script>
+@*Main Container*@
+<div class="container-fluid pl-3 pr-3">
+    <div class="row">
+        <div class="col">
+            <div class="bg-white rounded-3">
+                <div class="row">
+                        <div class="col-lg-3 border-right">
+                        <div class="card-header bg-white">
+                            <div class="row">
+                                <div class="col-8 text-left">
+                                    <span class="m-0 h6 font-weight-bolder text-gray-900" data-toggle="modal" data-target="#modal-right">
+                                        <span class="bi bi-gear mr-2 text-gray-500"></span>
+                                        Select Configs</span>
+                                </div>
+                                <div class="col-4 text-right">
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                           <div class="row mb-2">
+                                <div class="col-12">
+                                     <div class="row mb-2 border-bottom">
+                                        <div class="col-12 mb-2">
+                                                <span class="bi bi-check-circle text-gray-500 " data-toggle="tooltip" title="Disease Name"></span>
+                                                <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">Design Type</span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-12">
+                                                <select  class="form-control form-control-sm" >
+                                                </select>
+                                            </div>
+                                        </div>
+                                 </div>
+                                 <div class="col-12">
+                                     <div class="row mb-2 border-bottom">
+                                        <div class="col-12 mb-2">
+                                                <span class="bi bi-check-circle text-gray-500 " data-toggle="tooltip" title="Disease Name"></span>
+                                                <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">Generative Model</span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-12">
+                                                <select  class="form-control form-control-sm" >
+                                                </select>
+                                            </div>
+                                        </div>
+                                 </div>
+                                <div class="col-12">
+                                     <div class="row mb-2 border-bottom">
+                                        <div class="col-12 mb-2">
+                                                <span class="bi bi-check-circle text-gray-500 " data-toggle="tooltip" title="Disease Name"></span>
+                                                <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">Generative Model</span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <div class="col-12">
+                                                <select  class="form-control form-control-sm" >
+                                                </select>
+                                            </div>
+                                        </div>
+                                 </div>
+                                 <div class="col-12">
+                                        <div class="row mb-1 mt-5">
+                                            <div class="col-12">
+                                                <button class="btn  btn-sm text-white" type="button" onclick="GetSmileDetails()" 
+                                                data-toggle="modal" data-target="#modal-right" data-toggle-class="modal-open-aside"
+                                                     style="background-color: #ba99d4">
+                                                    <span class="bi bi-lightning  mr-1"></span>Generate
+                                                </button>
+                                            </div>
+                                        </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="card-header bg-white border-bottom bfont-weight-bold">
+                            <div class="row">
+                                <div class="col-md-10 text-left">
+
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <div class="dropdown no-arrow">
+                                        <button class="btn btn-light btn-circle dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <a class="nav-link btn btn-sm" data-toggle="tooltip" data-placement="bottom" title="Options">
+                                                <div>
+                                                    <i class="fas fa-caret-down text-primary"></i>
+                                                </div>
+                                            </a>
+                                        </button>
+                                        @*Dropdown Menu*@
+                                        <div class="dropdown-menu  dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                            <a href="#" class="dropdown-item  text-gray-700  text-danger" id="A1"  data-toggle="modal" data-target="#targetUploader"><span class="bi bi-upload  mr-2" style="color: #ff00bb"></span>Upload Target</a>
+                                            <a href="#" class="dropdown-item  text-gray-700  text-danger" id="A4"  data-toggle="modal" data-target="#exampleModalShopMerge"><span class="fas fa-code-branch  mr-2 " style="color: #ff00bb"></span>Merge shop</a>
+                                            <a href="#" class="dropdown-item  text-gray-700  text-danger" visible="false" id="A2"  data-toggle="modal" data-target="#exampleModalAssignShop"><span class="fas fa-plus-circle  mr-2 " style="color: #ff00bb"></span>Assign Suspended Shop</a>
+                                            <a href="#" class="dropdown-item  text-gray-700  text-danger" visible="true" id="A9"  data-toggle="modal" data-target="#DescriptionShop"><span class="fas fa-edit  mr-2 " style="color: #ff00bb"></span>Add description</a>
+
+                                            <a href="#" class="dropdown-item  text-gray-700  text-danger" id="A3"  data-toggle="modal" data-target="#DeleteShop"><span class="fas fa-trash  mr-2 " style="color: #ff00bb"></span>Remove Shop</a>
+                                            <a href="#" class="dropdown-item  text-gray-700  text-danger" id="A5"  data-toggle="modal" data-target="#RenameShop"><span class="fas fa-edit  mr-2 " style="color: #ff00bb"></span>Rename</a>
+                                            <a href="#" class="dropdown-item  text-gray-700  text-danger" id="A6"  data-toggle="modal" data-target="#DelModal"><span class="fas fa-image  mr-2 " style="color: #ff00bb"></span>Remove Image</a>
+                                            <a href="#" class="dropdown-item  text-gray-700  text-danger" id="A7"  data-toggle="modal" data-target="#RemoveModal"><span class="fas fa-wave-square  mr-2 " style="color: #ff00bb"></span>Remove Comment & Activity</a>
+                                            <a href="#" class="dropdown-item  text-gray-700  text-danger" id="A11"  data-toggle="modal" data-target="#LocModal"><span class="fas fa-dot-circle  mr-2 " style="color: #ff00bb"></span>Update Location</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <main role="main" id="main2" class="mt-5 align-content-center" >
+                                <div class="starter-template">
+                                    <center>
+                                        @*<div style="height: 400px; width: 400px; position: relative;" class='viewer_3Dmoljs' data-pdb='1YCR' 
+         data-select1='chain:A' data-style1='cartoon:color=spectrum' data-surface1='opacity:.7;color:white' data-select2='chain:B' data-style2='stick'></div>*@       
+                                        <p class="lead text-primary">
+                                            <span class="bi bi-capsule-pill fa-3x text-gray-400"></span>
+                                        </p>
+                                        <h6 class="text-gray-300 text-xs" style="font-weight: bold">No Drug Generated</h6>
+                                    </center>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*End of the Main Container*@
+@*Modal Assignment Area*@
+<div id="modal-right" class="modal fade" data-backdrop="true">
+    <div class="modal-dialog modal-right w-xl">
+        <div class="modal-content h-100 no-radius">
+            <div class="modal-header border-bottom">
+                <span class="bi bi-pin-angle mr-2 text-danger"></span>
+                <div class="modal-title small text-gray-800">Drug Details</div>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="overflow-y:scroll;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row mb-2 border-bottom">
+                        <div class="col-12 mb-2">
+                                <span class="bi bi-patch-question text-primary " data-toggle="tooltip" title="Disease Name"></span>
+                                <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">Structure</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                <div class="card">
+                       <center>
+                                  @* <div style="height: 400px; width: 400px;" 
+                                    class='viewer_3Dmoljs' data-style='cartoon:color=spectrum' data-href='app/js.api/4dm7.txt' 
+                                    data-backgroundcolor='0xffffff' 
+                                    data-options="multimodel:true;onemol:true" data-ui='true'></div></center>
+                                    </div> *@
+                                    </center>
+                        <div id="drug-structure-carousel" class="carousel slide carousel-fade pl-2 pr-2" data-ride="carousel">
+                            <div>
+
+                                @*<div style="height: 400px; width: 400px; position: relative;" class='viewer_3Dmoljs' data-pdb='2POR' data-backgroundcolor='0xffffff' data-style='stick' data-ui='true'></div>*@       
+
+                                <div id="outDiv"></div>
+                                <ol class="carousel-indicators" id="prfdiv" runat="server">
+                                    <li class="text-warning" data-target="#drug-structure-carousel" data-slide-to="0" ></li>
+                                    <li data-target="#drug-structure-carousel" data-slide-to="1"></li>
+                                    <li data-target="#drug-structure-carousel" data-slide-to="2"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="card shadow-sm">
+                                        @* <img class=" w-100" src="~/assets/images/drugs/drugs discovered.png" height="150"> *@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row mb-2 border-bottom">
+                            <div class="col-12 mb-2">
+                                    <span class="bi bi-patch-question text-primary " data-toggle="tooltip" title="Disease Name"></span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">Property Values</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="targetUploader" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="CreditModalG" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="border-radius: 18px">
+            <div class="modal-header border-bottom">
+                <h6 class="modal-title font-weight-bold text-gray-900">
+                    <span class="bi bi-virus mr-2" style="color: #c34dc1; font-size: 20px"></span>
+                    Target Analysis
+                                    <a data-toggle="modal" data-target="#targetUploaderModal"><span class="bi bi-nut text-primary mr-2" data-toggle="tooltip" title="Upload Target"></span></a></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: scroll; zoom: 90%">
+
+                <div class="row mb-2">
+                    <div class="col-4 border-right">
+                         <div class="row mb-2 border-bottom">
+                            <div class="col-12 mb-2">
+                                    <span class="bi bi-check-circle text-danger " data-toggle="tooltip" title="Disease Name"></span>
+                                    <span class="small text-danger text-uppercase font-weight-light badge badge-light mr-1">Reference Lig.</span>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-12">
+                                    <center>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Quantitative Estimation of Drug Likelyness">QED</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Synthetic Accessibility">SA</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Molecular Diversity">MD</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Molecular Weight">MW</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Solubility">logP</span>
+                                    </center>
+                                </div>
+                                    <div class="col-12">
+                                    <center>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">0.186</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">2.1</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    </center>
+                                </div>
+               
+                             
+                            </div>
+                            <div class="row mb-2 border-bottom">
+                            <div class="col-12 mb-2 mt-2">
+                                    <span class="bi bi-check-circle text-danger " data-toggle="tooltip" title="Disease Name"></span>
+                                    <span class="small text-danger text-uppercase font-weight-light badge badge-light mr-1">Generated Lig.</span>
+                                </div>
+                            </div>
+                             <div class="row mb-1">
+                                <div class="col-12">
+                                    <center>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Quantitative Estimation of Drug Likelyness">QED</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Synthetic Accessibility">SA</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Molecular Diversity">MD</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Molecular Weight">MW</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Solubility">logP</span>
+                                    </center>
+                                </div>
+                                    <div class="col-12">
+                                    <center>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">0.186</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">2.1</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    </center>
+                                </div>
+
+                            </div>
+                            <div class="row mb-2">
+                            <div class="col-12 mb-2 mt-2">
+                                    <span class="bi bi-peace text-danger" data-toggle="tooltip" title="Disease Name"></span>
+                                    <span class="small text-danger text-uppercase font-weight-light badge badge-light mr-1" >Comparison</span>
+                                </div>
+                                   <div class="col-12 border-top border-bottom">
+                                    <span class="small text-gray-600 text-uppercase font-weight-light badge badge-light mr-1">Similarity</span>
+                                    <span class="small text-gray-600 text-uppercase font-weight-light badge badge-light mr-1">0.69</span>
+                                    <span class="bi bi-vr text-gray-600 mr-2" data-toggle="modal" data-target="#similartyMapModal"></span>
+                                </div>
+                                 <div class="col-12 border-bottom">
+                                    <span class="small text-white text-uppercase font-weight-light badge badge-primary mr-1">Docking</span>
+                                    <span class="small text-white text-uppercase font-weight-light badge badge-primary mr-1">Rf:-7.69</span>
+                                    <span class="small text-white text-uppercase font-weight-light badge badge-primary mr-1">Gn:-7.69</span>
+                                    <span class="bi bi-bar-chart text-gray-600 mr-2" data-toggle="modal" data-target="#dockingScoreModal"></span>
+
+                                </div>
+                            </div> 
+                            </div>
+                     <div class="col-8">
+                        <center>
+                            <div style="height: 300px;" id="targetViewer"
+                                class='viewer_3Dmoljs' data-style='cartoon:color=green' data-href='app/res/6vxx.txt' 
+                                data-backgroundcolor='0xffffff' 
+                                data-options="multimodel:true;" data-ui='true'>
+                       
+                            </div>
+                               @*<div style="height: 400px;" data-backgroundcolor='0xffffff'  class='viewer_3Dmoljs' data-href="app/res/6vxx.pdb"
+                               data-style='cartoon:color=spectrum' ></div> *@
+                        </center>
+                     </div>
+               
+            </div> 
+            <div class="modal-footer">
+                  <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">Target Styles</span>
+
+
+                 <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="radio" id="stick" name="customRadioInline2" class="custom-control-input" clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="stick" >Stick</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="radio" id="surcharge" name="customRadioInline2" class="custom-control-input"  clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="surcharge" data-toggle="tooltip" title="This setting allows the display of additional charges to the fiscal printer">Surface</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="radio" id="saleno" name="customRadioInline2" class="custom-control-input" clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="saleno" data-toggle="tooltip" title="This setting allow the display of unique sale number [serial#+operatorcode+receipt no]">Cartoon</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="radio" id="fsno" name="customRadioInline2" class="custom-control-input" clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="fsno" data-toggle="tooltip" title="This setting allow the usage of 8 digit on FS# [eg. 000000001]">Line</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" id="fsnoSelection" name="customRadioInline2" class="custom-control-input" clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="fsnoSelection" data-toggle="tooltip" title="This setting allow the selection of receipt no from the connected fiscal printer">Show Label</label>
+                </div>
+            </div>
+       </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="similartyMapModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="CreditModalG" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content" style="border-radius: 18px">
+            <div class="modal-header border-bottom">
+                <h6 class="modal-title font-weight-bold text-gray-900">
+                    <span class="bi bi-vr mr-2" style="color: #c34dc1; font-size: 20px"></span>
+                     Similarity Map                                    </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: scroll; zoom: 90%">
+
+                <div class="row mb-2">
+                    <div class="col-12">
+         
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                  <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">Metrics</span>
+                  <select class="form-control form-control-sm">
+                      <option>Tenimoto</option>
+                  </select>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="dockingScoreModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="CreditModalG" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content" style="border-radius: 18px">
+            <div class="modal-header border-bottom">
+                <h6 class="modal-title font-weight-bold text-gray-900">
+                    <span class="bi bi-pie-chart mr-2" style="color: #c34dc1; font-size: 20px"></span>
+                     Docking Score                                   </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: scroll; zoom: 90%">
+
+                <div class="row mb-2">
+                    <div class="col-12">
+         
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="targetUploaderModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="CreditModalG" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" style="border-radius: 18px">
+            <div class="modal-header border-bottom">
+                <h6 class="modal-title font-weight-bold text-gray-900">
+                    <span class="bi bi-upload mr-2" style="color: #c34dc1; font-size: 20px"></span>
+                     Upload Target Files                                 </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: scroll; zoom: 90%">
+                <div class="row mb-2">
+                    <form method="post" asp-antiforgery="false">
+                <div class="col-12">
+                <input id="fileUpload" class="form-control form-control-sm" type="file" name="postedFiles"/>
+                <br />
+                <span style="color:green">@Html.Raw(Model.Message)</span>
+                </div></form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+.mol-container {
+  width: 60%;
+  height: 400px;
+  position: relative;
+}
+</style>
+@*JS Assignment Areas*@
+<script>
+     $("#fileUpload").on('change', function () {
+ var formData = new FormData();
+                var file = $("#fileUpload")[0].files[0];
+                formData.append("file", file);
+                $.ajax({
+                    url: "/workspaces",
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    
+                    success: function (result) {
+                        alert(result);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+                });
+});
+</script>
+<script>
+$(function() {
+  var smiles = "CC(=O)Oc1ccccc1C(=O)O";
+  var mol = RDKitModule.get_mol(smiles);
+  var dest = document.getElementById("outDiv");
+  var svg = mol.get_svg();
+  dest.innerHTML = "<div id='drawing'>" + svg + "</div>";
+  
+  //let element = $('#container-01');
+  //let config = { backgroundColor: 'orange' };
+  //let viewer = $3Dmol.createViewer( element, config );
+  //viewer.addModel('app/res/6vxx.txt', 'pdb')
+  //@* viewer.addSphere({ center: {x:0, y:0, z:0}, radius: 10.0, color: 'green' }); *@
+  //viewer.zoomTo();
+  //viewer.render();
+  //viewer.zoom(0.8, 2000);
+});
+</script>
+<script src="~/app/js/api.js"></script>
+<script src="~/app/js/viewerconfig.js"></script>

@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - genmol</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/genmol.styles.css" asp-append-version="true" />
+
+    <link rel="icon" href="~/assets/images/logo/Untitled.png" type="image/x-icon" />
+    <link href="~/assets/css/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/assets/css/sb-admin-2.css" rel="stylesheet" />
+    <script src="~/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="~/assets/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <link href="~/assets/js/jquery-ui.xcss" rel="stylesheet" />
+    <script src="~/assets/js/jquery-ui.min.js"></script>
+    <link href="~/assets/css/snackbar.css" rel="stylesheet" />
+    <script src="~/assets/js/chart.min.js"></script>
+    <link href="~/assets/icons/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/assets/css/sidebarscroller.css" rel="stylesheet" />
+</head>
+<body id="page-top">
+                <div id="wrapper">
+                    <div id="attr" runat="server">
+                        <ul class="navbar-nav  sidebar text-white toggled bg-primary accordion h-100" style="border-radius: 0px 25px 25px 0px" id="accordionSidebar" translate="no">
+                            <li class="nav-item dropdown" style="margin-left: -2px; margin-top: 1px">
+                                <a class="sidebar-brand d-flex align-items-center justify-content-center">
+                                    <div class="sidebar-brand-icon">
+                                        <center>
+                                            <img src="../../assets/icons/dashbordicon/layers.svg" />
+                                        </center>
+                                    </div>
+                                </a>
+                            </li>
+              
+                            <li class="nav-item dropdown mb-1"  style="margin-left: -14px;margin-top:160px">
+                                <a class="nav-link"  data-toggle="tooltip" data-placement="right" title="Dashboard" asp-page="/Index">
+                                    <span class="bi bi-speedometer2  text-white" style="font-size:17px;font-weight:bold"></span>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown mb-1"  style="margin-left: -14px">
+                                <a class="nav-link" asp-page="/workspaces"  data-toggle="tooltip" data-placement="right" title="Generative AI Workspaces">
+                                    <span class="bi bi-archive text-white" style="font-size: 17px; font-weight: bold"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="content-wrapper" class="d-flex flex-column" style="position: relative">
+                        <div id="content" style="position: relative">
+                            <nav class="navbar navbar-expand  bg-white topbar w-100 mb-2 static-top" translate="no">
+                                <button id="sidebarToggleTop" runat="server" clientidmode="Static" type="button" class="btn btn-link d-md-none rounded-circle mr-3">
+                                    <i class="fa fa-bars"></i>
+                                </button>
+                                <div class="input-group w-25" style="display: none">
+                                    <span id="sub" runat="server"></span>
+                                    <div id="myDIV" class="spinner-grow spinner-grow-sm text-warning mr-4 mt-2" role="status">
+                                        <span class="sr-only">Loading.ffrfyyrg..</span>
+                                    </div>
+                                </div>
+                                <ul class="navbar-nav ml-auto" style="position: relative">
+
+                                    <div class="nav-item dropdown no-arrow mx-1 " id="Div3" runat="server">
+                                        <div id="status"></div>
+                                    </div>
+
+                                    <li class="nav-item dropdown no-arrow mx-1 mr-1"  data-toggle="tooltip" data-placement="right" title="Monitor Status">
+                                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown3" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="../../assets/icons/dashbordicon/monitor.svg" />
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                            aria-labelledby="userDropdown3" style="width: 200px">
+
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#managePosModal">
+                                                <i class="bi bi-broadcast fa-sm fa-fw mr-2 text-gray-500"></i>
+                                                OPD status
+                                            </a>
+
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#AppointmentListModal">
+                                                <i class="bi bi-clock fa-sm fa-fw mr-2 text-gray-500"></i>
+                                                Appointment
+                                            </a>
+
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#AutomationModal">
+                                                <i class="bi bi-alexa fa-sm fa-fw mr-2 text-gray-500"></i>
+                                                Automation
+                                            </a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" onclick="GetAutomatedReport() " data-target="#ReportAutomationListModal">
+                                                <i class="bi bi-pie-chart fa-sm fa-fw mr-2 text-gray-500"></i>
+                                                Report Automation
+                                            </a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" onclick="GetReminder() " data-target="#ReminderAutomationListModal">
+                                                <i class="bi bi-alarm fa-sm fa-fw mr-2 text-gray-500"></i>
+                                                Reminder
+                                            </a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#FollowUpListModal" onclick="GetFollowUpData()">
+                                                <i class="bi bi-file-earmark-check fa-sm fa-fw mr-2 text-gray-500"></i>
+                                                Patient Follow Up
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item dropdown no-arrow ">
+                                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="bi bi-app text-gray-800" style="font-size: 18px"></span>
+                                            <span id="counter" class=" badge-counter badge-pill badge badge-danger ">∙</span>
+                                        </a>
+                                        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                            aria-labelledby="alertsDropdown">
+                                            <h6 class="dropdown-header">Notification
+                                            </h6>
+                                            <br />
+                                            <div id="tbl" class="scrollarea" style="max-height: 600px; max-width: 600px; overflow-y: scroll;zoom:85%">
+                                                <center>
+                                                    <main role="main" id="main">
+
+                                                        <div class="starter-template">
+                                                            <center>
+                                                                <p class="lead">
+                                                                    <i class="bi bi-bell-slash text-gray-300  fa-2x"></i>
+                                                                </p>
+                                                                <h6 class="text-gray-700 small">No Notification</h6>
+                                                            </center>
+                                                        </div>
+                                                    </main>
+                                                </center>
+                                            </div>
+                                            <center>
+                                                <a class="dropdown-item text-center small text-danger" visible="false" id="unread_tab" runat="server" href="marknotifasread.aspx?markas=true">Mark as Read</a>
+                                                <a class="dropdown-item text-center small " id="delete_tab" visible="false" runat="server" href="marknotifasread.aspx?r=true"><span class="fas fa-trash mr-2 text-gray-300"></span><span class="text-primary">Delete All Notification</span></a>
+                                            </center>
+                                        </div>
+                                    </li>
+                                    <div class="topbar-divider d-none d-sm-block"></div>
+                                    <li class="nav-item dropdown no-arrow">
+                                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div id="profilediv" runat="server">
+                                                <img src="../../assets/images/profile/62681-flat-icons-face-computer-design-avatar-icon.jpg.jpg" width="35" height="35" class="rounded-circle" />
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                            aria-labelledby="userDropdown">
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profileModal">
+                                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Profile
+                                            </a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Logout
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </nav>
+                      @RenderBody()
+                        </div>
+                                                <footer class="sticky-footer bg-light">
+                            <div class="container my-auto">
+                                <div class="copyright text-center text-gray-400 my-auto">
+                                    <span>Copyright &copy; 2021-2025 Qemer POS</span>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                    <a class="scroll-to-top rounded" href="#page-top">
+                        <i class="fas fa-angle-up"></i>
+                    </a>
+                </div>
+
+    <script src="js/master-table.js"></script>
+    <script src="js/master.js"></script>
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery.easing.min.js"></script>
+    <script src="~/assets/js/sb-admin-2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#mytoast").toast({
+                delay: 10000
+            });
+        })
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.toast').toast('show');
+        })
+    </script>
+    <script src="~/assets/js/tooltip.js"></script>
+   </body>
+
+</html>

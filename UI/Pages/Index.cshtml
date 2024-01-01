@@ -1,0 +1,209 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<link href="~/assets/css/custom-modal.css" rel="stylesheet" />
+<div class="text-center">
+    <h3 class="text-gray-900">Welcome to Generative AI models</h3>
+    <p>Click to <a href="#" data-toggle ='modal' data-target='#targetUploader'>build molecule</a>.</p>
+</div>
+<div class="modal fade" id="DiseaseTypeListModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="CreditModalG" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="border-radius: 18px">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold text-gray-900">
+                    <span class="bi bi-ui-radios-grid mr-2" style="color: #c34dc1; font-size: 20px"></span>
+                    Mol Generation Wizard</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: scroll; zoom: 90%">
+
+                <div class="row mb-2">
+                    <div class="col-3">
+                         <div class="row mb-2 border-bottom">
+                            <div class="col-12 mb-2">
+                                    <span class="bi bi-check-circle text-gray-500 " data-toggle="tooltip" title="Disease Name"></span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">Generative Model</span>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-12">
+                                    <select  class="form-control form-control-sm" >
+                                    </select>
+                                </div>
+                            </div>
+                     </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn  btn-sm text-white" type="button" 
+                data-toggle="modal" data-target="#modal-right" data-toggle-class="modal-open-aside"
+                     style="background-color: #ba99d4">
+                    <span class="bi bi-x mr-1"></span>Generate
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal-right" class="modal fade" data-backdrop="true">
+    <div class="modal-dialog modal-right w-xl">
+        <div class="modal-content h-100 no-radius">
+            <div class="modal-header">
+                <div class="modal-title text-md">Property Catalog</div>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="p-4 text-center">
+                <p>For what reason would it be advisable for me to think about business content?</p>
+                </div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-light" data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary" data-                      dismiss="modal">Save Details</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="targetUploader" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="CreditModalG" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="border-radius: 18px">
+            <div class="modal-header border-bottom">
+                <h6 class="modal-title font-weight-bold text-gray-900">
+                    <span class="bi bi-virus mr-2" style="color: #c34dc1; font-size: 20px"></span>
+                    Target Analysis
+                                    <a data-toggle="modal" data-target="#targetUploaderModal"><span class="bi bi-nut text-primary mr-2" data-toggle="tooltip" title="Upload Target"></span></a></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: scroll; zoom: 90%">
+
+                <div class="row mb-2">
+                    <div class="col-3 border-right">
+                         <div class="row mb-2 border-bottom">
+                            <div class="col-12 mb-2">
+                                    <span class="bi bi-check-circle text-danger " data-toggle="tooltip" title="Disease Name"></span>
+                                    <span class="small text-danger text-uppercase font-weight-light badge badge-light mr-1">Reference Lig.</span>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-12">
+                                    <center>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Quantitative Estimation of Drug Likelyness">QED</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Synthetic Accessibility">SA</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Molecular Diversity">MD</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Molecular Weight">MW</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Solubility">logP</span>
+                                    </center>
+                                </div>
+                                    <div class="col-12">
+                                    <center>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">0.186</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">2.1</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    </center>
+                                </div>
+                                 <div class="col-12 border-top border-bottom">
+                                    <span class="small text-white text-uppercase font-weight-light badge badge-primary mr-1">Docking Score</span>
+                                    <span class="small text-white text-uppercase font-weight-light badge badge-primary mr-1">-7.69</span>
+                                
+                                </div>
+                             
+                            </div>
+                            <div class="row mb-2 border-bottom">
+                            <div class="col-12 mb-2 mt-2">
+                                    <span class="bi bi-check-circle text-danger " data-toggle="tooltip" title="Disease Name"></span>
+                                    <span class="small text-danger text-uppercase font-weight-light badge badge-light mr-1">Generated Lig.</span>
+                                </div>
+                            </div>
+                             <div class="row mb-1">
+                                <div class="col-12">
+                                    <center>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Quantitative Estimation of Drug Likelyness">QED</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Synthetic Accessibility">SA</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Molecular Diversity">MD</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Molecular Weight">MW</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1"
+                                    data-toggle="tooltip" title="Solubility">logP</span>
+                                    </center>
+                                </div>
+                                    <div class="col-12">
+                                    <center>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">0.186</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">2.1</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">1.02</span>
+                                    </center>
+                                </div>
+                                 <div class="col-12 border-top border-bottom">
+                                    <span class="small text-white text-uppercase font-weight-light badge badge-primary mr-1">Docking Score</span>
+                                    <span class="small text-white text-uppercase font-weight-light badge badge-primary mr-1">-7.69</span>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                            <div class="col-12 mb-2 mt-2">
+                                    <span class="bi bi-peace text-danger" data-toggle="tooltip" title="Disease Name"></span>
+                                    <span class="small text-danger text-uppercase font-weight-light badge badge-light mr-1" >Comparison</span>
+                                </div>
+                                   <div class="col-12 border-top border-bottom">
+                                    <span class="small text-gray-600 text-uppercase font-weight-light badge badge-light mr-1">Similarity</span>
+                                    <span class="small text-gray-600 text-uppercase font-weight-light badge badge-light mr-1">0.69</span>
+                                    <span class="bi bi-vr text-gray-600 mr-2" data-toggle="modal" data-target="#similartyMapModal"></span>
+                                </div>
+                            </div> 
+                            </div>
+                     <div class="col-9">
+                        <center>
+                            <div style="height: 300px;" id="targetViewer"
+                                class='viewer_3Dmoljs' data-style='stick' data-href='app/res/6vxx.pdb' 
+                                data-backgroundcolor='0xffffff' 
+                                data-options="multimodel:true;onemol:true" data-ui='true'>
+                            </div>
+@*                             <div style="height: 400px;" data-backgroundcolor='0xffffff'  class='viewer_3Dmoljs' data-href="app/res/6vxx.pdb"
+          data-style='cartoon:color=spectrum' ></div> *@
+                        </center>
+                     </div>
+               
+            </div> 
+            <div class="modal-footer">
+                  <span class="small text-gray-500 text-uppercase font-weight-light badge badge-light mr-1">Target Styles</span>
+
+
+                 <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="radio" id="stick" name="customRadioInline2" class="custom-control-input" clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="stick" >Stick</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="radio" id="surcharge" name="customRadioInline2" class="custom-control-input"  clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="surcharge" data-toggle="tooltip" title="This setting allows the display of additional charges to the fiscal printer">Surface</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="radio" id="saleno" name="customRadioInline2" class="custom-control-input" clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="saleno" data-toggle="tooltip" title="This setting allow the display of unique sale number [serial#+operatorcode+receipt no]">Cartoon</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="radio" id="fsno" name="customRadioInline2" class="custom-control-input" clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="fsno" data-toggle="tooltip" title="This setting allow the usage of 8 digit on FS# [eg. 000000001]">Line</label>
+                </div>
+                <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" id="fsnoSelection" name="customRadioInline2" class="custom-control-input" clientidmode="Static" />
+                    <label class="custom-control-label text-gray-700 small " for="fsnoSelection" data-toggle="tooltip" title="This setting allow the selection of receipt no from the connected fiscal printer">Show Label</label>
+                </div>
+            </div>
+       </div>
+    </div>
+</div>
+</div>
